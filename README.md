@@ -89,22 +89,7 @@ The controller selects the EEPROM using its I2C slave address, then specifies th
 
 UART is used to display the current ADC value and the values read from both EEPROM locations. The program formats the values into a string using `sprintf()` and sends the string to a serial terminal through the configured LPUART peripheral.
 
-## 6. Configuration and Memory Mapping
-
-| Parameter | Example value | Description |
-|---|---|---|
-| Microcontroller | S32K144 | Main controller |
-| Data acquisition | ADC | Reads analog input |
-| EEPROM interface | I2C / LPI2C | Transfers data to and from EEPROM |
-| Output interface | LPUART | Displays results |
-| Block identifier | `1` | Selects the dual-copy write operation |
-| Copy A offset | `0x10` | First EEPROM storage location |
-| Copy B offset | `0x20` | Second EEPROM storage location |
-| Monitoring delay | `50 ms` | Delay between ADC checks |
-
-The values `0x10` and `0x20` are example internal EEPROM offsets. The slave address must match the physical EEPROM device.
-
-## 7. Working Principle
+## 6. Working Principle
 
 1. Initialize the system clock, pins, ADC, I2C, and UART peripherals.
 2. Start ADC conversion and obtain the current digital reading.
@@ -117,7 +102,7 @@ The values `0x10` and `0x20` are example internal EEPROM offsets. The slave addr
 9. Format the ADC and EEPROM values and send them through UART.
 10. Update the previous ADC value and repeat.
 
-## 8. Algorithm Flow
+## 7. Algorithm Flow
 
 ```text
 START
@@ -149,7 +134,7 @@ Compare current value with previous value
          Repeat
 ```
 
-## 9. How Data Is Stored at an Offset
+## 8. How Data Is Stored at an Offset
 
 An offset is an internal memory address within the EEPROM. For example, the project uses:
 
@@ -165,7 +150,7 @@ Suppose the ADC reading is `1250` decimal, equivalent to `0x04E2` hexadecimal. I
 
 This byte example assumes a 16-bit value stored in little-endian order. The code's byte order and the EEPROM's internal address format must be verified for the selected hardware. Some EEPROM devices require a two-byte memory address rather than a one-byte offset.
 
-## 10. Expected UART Output
+## 9. Expected UART Output
 
 ```text
 ADC=1250 CopyA=1250 CopyB=1250
@@ -173,11 +158,11 @@ ADC=1280 CopyA=1280 CopyB=1280
 ADC=1350 CopyA=1350 CopyB=1350
 ```
 
-## 11.OUTPUT
+## 10.OUTPUT
 <img width="825" height="521" alt="image" src="https://github.com/user-attachments/assets/94dfe332-3a92-433c-8dd1-79886a06113e" />
 
 
-## 12. Result
+## 11. Result
 
 The project demonstrates how to acquire an analog input using the S32K144 ADC, store the resulting digital value at two separate offsets in an external I2C EEPROM, read both copies back, and display the results through UART when the ADC value changes.
 
